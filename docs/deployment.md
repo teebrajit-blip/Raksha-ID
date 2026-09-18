@@ -99,3 +99,23 @@ frontend/.env.local: NEXT_PUBLIC_CONTRACT_ADDRESS=<address>
 - Use a strong random `SESSION_SECRET` and HTTPS.
 - Keep `DEPLOYER_PRIVATE_KEY`, `MONGODB_URI`, storage credentials, and session secrets server-side.
 - Run `npm run build` and `npm test` before deployment.
+
+## Hosted deployment checklist
+
+1. Deploy the registry to Polygon Amoy from a machine that has `contracts/.env` configured with a funded `DEPLOYER_PRIVATE_KEY`. Never paste this key into GitHub, Vercel, Render, or chat.
+2. Save the resulting registry address. Use that same address for Render's `CONTRACT_ADDRESS` and Vercel's `NEXT_PUBLIC_CONTRACT_ADDRESS`.
+3. Create a MongoDB Atlas database and allow the Render service to connect. Set its connection string as Render's `MONGODB_URI` and keep `MONGODB_ENABLED=true`.
+4. In Render, create a Blueprint from `render.yaml`. Set `MONGODB_URI`, `CLIENT_URL` to the final Vercel URL, and `CONTRACT_ADDRESS` when prompted.
+5. In Vercel, import this repository, set the project root to `frontend`, and add:
+
+```text
+NEXT_PUBLIC_API_URL=https://<render-service>.onrender.com
+NEXT_PUBLIC_CONTRACT_ADDRESS=<amoy-registry-address>
+NEXT_PUBLIC_CHAIN_ID=80002
+NEXT_PUBLIC_NETWORK_NAME=Polygon Amoy
+```
+
+6. Redeploy the Render service after the final Vercel URL is known, because the API CORS allowlist uses `CLIENT_URL`.
+7. Verify `https://<render-service>.onrender.com/health`, then connect MetaMask to Polygon Amoy and test sign-in, upload, registration, and verification from the Vercel URL.
+
+The current document adapter writes to local disk. Do not use it for production uploads until `STORAGE_ENDPOINT`, `STORAGE_ACCESS_KEY`, and `STORAGE_SECRET_KEY` are wired to an S3-compatible durable store such as Cloudflare R2 or Amazon S3.
