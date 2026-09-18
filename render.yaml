@@ -1,0 +1,29 @@
+services:
+  - type: web
+    name: raksa-id-api
+    runtime: node
+    rootDir: backend
+    buildCommand: npm ci && npm run build
+    startCommand: npm start
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 10000
+      - key: MONGODB_ENABLED
+        value: "true"
+      - key: MONGODB_URI
+        sync: false
+      - key: SESSION_SECRET
+        generateValue: true
+      - key: CLIENT_URL
+        sync: false
+      - key: RPC_URL
+        value: https://rpc-amoy.polygon.technology
+      - key: CHAIN_ID
+        value: "80002"
+      - key: NETWORK_NAME
+        value: Polygon Amoy
+      - key: CONTRACT_ADDRESS
+        sync: false

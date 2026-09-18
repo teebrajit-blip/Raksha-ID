@@ -91,7 +91,10 @@ frontend/.env.local: NEXT_PUBLIC_CONTRACT_ADDRESS=<address>
 
 ## Production notes
 
-- Use a managed MongoDB deployment and set `MONGODB_ENABLED=true`.
+- Recommended hosting: Vercel for `frontend/`, Render for `backend/`, and MongoDB Atlas for persistence.
+- In Vercel, set the project root to `frontend` and configure `NEXT_PUBLIC_API_URL`, `NEXT_PUBLIC_CONTRACT_ADDRESS`, `NEXT_PUBLIC_CHAIN_ID`, and `NEXT_PUBLIC_NETWORK_NAME`.
+- In Render, use the checked-in `render.yaml` blueprint. Set `MONGODB_URI`, `CLIENT_URL`, and `CONTRACT_ADDRESS` as secret environment variables.
+- Use a managed MongoDB deployment and set `MONGODB_ENABLED=true`. Production startup now fails if MongoDB is disabled or unavailable.
 - Replace the local private storage adapter with S3-compatible object storage and signed URLs.
 - Use a strong random `SESSION_SECRET` and HTTPS.
 - Keep `DEPLOYER_PRIVATE_KEY`, `MONGODB_URI`, storage credentials, and session secrets server-side.

@@ -135,7 +135,7 @@ app.post("/api/auth/verify", async (request, response) => {
     await logAudit(recoveredAddress, "USER_LOGIN");
     response.setHeader(
       "Set-Cookie",
-      `${sessionCookie}=${token}; HttpOnly; Path=/; SameSite=Lax${env.NODE_ENV === "production" ? "; Secure" : ""}`
+      `${sessionCookie}=${token}; HttpOnly; Path=/; SameSite=${env.NODE_ENV === "production" ? "None" : "Lax"}${env.NODE_ENV === "production" ? "; Secure" : ""}`
     );
     response.json({ success: true, data: { walletAddress, authenticated: true } });
   } catch {
