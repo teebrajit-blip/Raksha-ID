@@ -1,0 +1,20 @@
+{
+  "name": "raksa-id",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "install:all": "npm install --prefix frontend && npm install --prefix backend && npm install --prefix contracts",
+    "build": "npm run build:backend && npm run build:frontend && npm run build:contracts",
+    "build:frontend": "npm run build --prefix frontend",
+    "build:backend": "npm run build --prefix backend",
+    "build:contracts": "npm run build --prefix contracts",
+    "test": "npm run test:contracts",
+    "test:contracts": "npm test --prefix contracts",
+    "dev:frontend": "npm run dev --prefix frontend",
+    "dev:backend": "npm run dev --prefix backend",
+    "dev:db": "docker compose up mongo",
+    "lint": "npm run lint:frontend && npm run lint:backend",
+    "lint:frontend": "npm run lint --prefix frontend",
+    "lint:backend": "npm run lint --prefix backend"
+  }
+}
